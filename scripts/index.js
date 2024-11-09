@@ -5,7 +5,7 @@ const cardTemplate = document.querySelector('#card-template').content;
 
 // клонируем карточку
 
-const placesItem = cardTemplate.querySelector('.card').cloneNode(true);
+// const placesItem = cardTemplate.querySelector('.card').cloneNode(true);
 
 // @todo: DOM узлы
 
@@ -15,28 +15,32 @@ const placeslist = content.querySelector('.places__list');
 const addbutton = content.querySelector('.profile__add-button');
 const editButton = content.querySelector('.profile__edit-button');
 
-
 // @todo: Функция создания карточки
 
-const cardCreate = (elements) => {
-  const placesItemCard = placesItem.cloneNode(true);
-  // const cardDelete = document.querySelector('.card__delete-button');
+const cardCreate = (cardData, handleDeleteButton) => {
+  const placesItem = cardTemplate.querySelector('.card').cloneNode(true);
+  // const placesItemCard = placesItem.cloneNode(true);
 
-  placesItemCard.querySelector('.card__image').src = elements.link;
-  placesItemCard.querySelector('.card__image').alt = elements.name;
-  placesItemCard.querySelector('.card__title').textContent = elements.name;
-
-  placeslist.append(placesItemCard);
-
-  placesItemCard.querySelector('.card__delete-button').addEventListener('click', cardDeleteButtons);
+  placesItem.querySelector('.card__image').src = cardData.link;
+  placesItem.querySelector('.card__image').alt = cardData.name;
+  placesItem.querySelector('.card__title').textContent = cardData.name;
+  
+  placesItem.querySelector('.card__delete-button').addEventListener('click', handleDeleteButton); 
+  
+  return placesItem;
 }
+
 // @todo: Функция удаления карточки
 
-const cardDeleteButtons = (evt) => {
+const handleDeleteButton = (evt) => {
   const event = evt.target;
-  const delitCard = event.parentElement;
+  const delitCard = event.closest('.places__item');
   delitCard.remove();
 }
 
 // @todo: Вывести карточки на страницу
-initialCards.forEach(cardCreate);
+
+initialCards.forEach(placesItem => { 
+  const newCard = cardCreate(placesItem, handleDeleteButton);
+  placeslist.prepend(newCard);
+});
