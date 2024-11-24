@@ -1,3 +1,6 @@
+import {initialCards} from './cards.js'
+import '../pages/index.css';
+
 // @todo: Темплейт карточки
 
 const content = document.querySelector('.content');
@@ -44,3 +47,15 @@ initialCards.forEach(placesItem => {
   const newCard = cardCreate(placesItem, handleDeleteButton);
   placeslist.prepend(newCard);
 });
+
+
+
+// const renderCard = placesItem => { 
+//   const newCard = cardCreate(placesItem, handleDeleteButton);
+//   placeslist.prepend(newCard);
+// }
+
+// initialCards.forEach(function (placesItem) { 
+//     const newCard = cardCreate(placesItem, handleDeleteButton);
+//     placeslist.prepend(newCard);
+// });
