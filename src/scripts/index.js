@@ -1,6 +1,6 @@
 import { initialCards } from './cards.js';
 import { сreateCard, handleDeleteButton, likeCard } from './card.js';
-import { openPopup, closePopup, openImages, closebutton, pressingEscape } from './modal.js';
+import { openPopup, handleCloseOverlay } from './modal.js';
 import '../pages/index.css';
 
 // @todo: Темплейт карточки
@@ -8,7 +8,6 @@ export const cardTemplate = document.querySelector('#card-template').content;
 
 // клонируем карточку
 // @todo: DOM узлы
-
 //наполняем содержимым
 
 const placeslist = document.querySelector('.places__list');
@@ -16,20 +15,32 @@ const addbutton = document.querySelector('.profile__add-button');
 const editButton = document.querySelector('.profile__edit-button');
 const popupEdits = document.querySelector('.popup_type_edit');
 const popupNewCards = document.querySelector('.popup_type_new-card');
-export const popupcardImages = document.querySelector('.popup_type_image');
-export const popupImages = document.querySelector('.popup__image');
-export const popupCaption = document.querySelector('.popup__caption');
-export const popups = document.querySelectorAll('.popup');
+const popupcardImages = document.querySelector('.popup_type_image');
+const popupImages = document.querySelector('.popup__image');
+const popupCaptionImage = document.querySelector('.popup__caption');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
-const formElement = document.forms['edit-profile'];
-const nameInput = formElement.elements.name;
-const jobInput = formElement.elements.description;
+const formEditProfile = document.forms['edit-profile'];
+const nameInput = formEditProfile.elements.name;
+const jobInput = formEditProfile.elements.description;
 const formElementCard = document.forms['new-place'];
 const placeNameInput = formElementCard.elements['place-name'];
 const linkInput = formElementCard.elements.link;
 
-//todo слушатели клика попапа
+
+// @todo: клик по изображению 
+
+const openImages = ({name, link}) => {
+  popupImages.src = link;
+  popupImages.alt = name;
+  popupCaptionImage.textContent = name; 
+  openPopup(popupcardImages);
+}
+
+//todo слушатели оверлея попапа
+document.addEventListener('click', handleCloseOverlay);
+
+// @todo: слушатели кнопки открытия попапа
 
 editButton.addEventListener('click', () => {
   openPopup(popupEdits);
@@ -44,7 +55,7 @@ addbutton.addEventListener('click', () => {
 
 // @todo: обработчик отправки формы
 
-function handleFormSubmit(evt) {
+function handleFormProfileEdit(evt) {
   evt.preventDefault(); 
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value; 
@@ -52,7 +63,7 @@ function handleFormSubmit(evt) {
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', handleFormSubmit); 
+formEditProfile.addEventListener('submit', handleFormProfileEdit); 
 
 //@todo добавление своей карточки
 
