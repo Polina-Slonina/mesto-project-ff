@@ -1,6 +1,6 @@
 import { initialCards } from './cards.js';
 import { сreateCard, handleDeleteButton, likeCard } from './card.js';
-import { openPopup, handleCloseOverlay } from './modal.js';
+import { openPopup, closePopup } from './modal.js';
 import '../pages/index.css';
 
 // @todo: Темплейт карточки
@@ -37,8 +37,15 @@ const openImages = ({name, link}) => {
   openPopup(popupcardImages);
 }
 
-//todo слушатели оверлея попапа
-document.addEventListener('click', handleCloseOverlay);
+//todo слушатели оверлея и кнопое
+ document.querySelectorAll('.popup').forEach((popup) => {
+    popup.addEventListener('click', (evt) => {
+      if(evt.target.classList.contains('popup__close') || evt.target.classList.contains('popup') || evt.target.classList.contains('popup__button')) {
+        closePopup(popup);
+      };
+    });      
+  });
+
 
 // @todo: слушатели кнопки открытия попапа
 
