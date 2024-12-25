@@ -1,0 +1,21 @@
+.profile__images {
+  position: relative;
+}
+
+.profile__image-button {
+  position: absolute;
+  z-index: 1;
+  width: 26px;
+  height: 26px;
+  border: none;
+  opacity: 0;
+  background: transparent url('../../../images/edit-avatar.svg') center no-repeat;
+  cursor: pointer;
+  inset-inline-start: 50px;
+  inset-block-start: 45px;
+}
+
+.profile__images:hover .profile__image-button {
+  opacity: 1;
+  transition: visibility 0s 0.3s, opacity 0.3s;
+}

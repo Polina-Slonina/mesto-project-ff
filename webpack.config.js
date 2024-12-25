@@ -11,6 +11,7 @@ module.exports = {
     filename: 'main.js',
             publicPath: ''
    },
+   devtool: 'source-map',
     mode: 'development', // добавили режим разработчика
   devServer: {
     static: path.resolve(__dirname, './dist'), // путь, куда "смотрит" режим разработчика
@@ -33,7 +34,7 @@ module.exports = {
       // добавили правило для обработки файлов
       {
       // регулярное выражение, которое ищет все файлы с такими расширениями
-        test: /\.(png|svg|jpg|jpeg|gif)$/,
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
         generator: {
             filename: 'images/[name].[hash][ext]',

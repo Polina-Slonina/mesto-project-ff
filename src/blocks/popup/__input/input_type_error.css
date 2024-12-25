@@ -1,0 +1,32 @@
+.popup__input_type_error {
+  border-bottom: 1px solid #f00;
+}
+
+.popup__input_type_name-error {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 27px;
+}
+
+.popup__input_type_description-error {
+  position: absolute;
+  inset-block-start: 93px;
+}
+
+.popup__input_type_card-name-error {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 27px;
+}
+
+.popup__input_type_url-error{
+  position: absolute;
+  inset-block-start: 93px;
+}
+
+.popup__error_visible {
+  color: #f00;
+  font-weight: 400;
+  font-size: 12px;
+}
+
