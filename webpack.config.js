@@ -11,7 +11,7 @@ module.exports = {
     filename: 'main.js',
             publicPath: ''
    },
-   devtool: 'source-map',
+  //  devtool: 'source-map',
     mode: 'development', // добавили режим разработчика
   devServer: {
     static: path.resolve(__dirname, './dist'), // путь, куда "смотрит" режим разработчика
