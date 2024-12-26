@@ -1,13 +1,3 @@
-// @todo: объект с настройками валидации
-
-export const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-};
 
 // @todo: функция показать ошибки валидации
 
@@ -51,12 +41,9 @@ const hasInvalidInput = (inputList) => {
    });
  }
 
- // @todo: функция очищает ошибки валидации формы и делает кнопку неактивной
+ // @todo: функция активации кнопки сохранения
 
-export const clearValidation = (formElement, validationConfig) => {
-  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
-  const popupButton = formElement.querySelector(validationConfig.submitButtonSelector);
-
+ const inputValidation = (inputList, popupButton, validationConfig) => {
   if (hasInvalidInput(inputList)) {
     popupButton.disabled = true;
     popupButton.classList.add(validationConfig.inactiveButtonClass);
@@ -64,21 +51,18 @@ export const clearValidation = (formElement, validationConfig) => {
     popupButton.disabled = false;
     popupButton.classList.remove(validationConfig.inactiveButtonClass);
   };
+}
 
-  inputList.forEach( (inputElement) => {
-    document.querySelectorAll('.popup').forEach((popup) => { 
-      popup.addEventListener('click', (evt) => {
-        if(evt.target.classList.contains('popup__close') || evt.target.classList.contains('popup')) {
-          hideInputError(formElement, inputElement, validationConfig);
-        };
-      });
+ // @todo: функция очищает ошибки валидации формы и делает кнопку неактивной
 
-      document.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Escape') {
-          hideInputError(formElement, inputElement, validationConfig);
-        };
-      });
-    });   
+export const clearValidation = (formElement, validationConfig) => {
+  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+  const popupButton = formElement.querySelector(validationConfig.submitButtonSelector);
+ 
+  inputValidation(inputList, popupButton, validationConfig);
+
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement, validationConfig);
   });
 }    
 
@@ -86,14 +70,18 @@ export const clearValidation = (formElement, validationConfig) => {
 
 export const enableValidation = (validationConfig) => {
   const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+  
 
   formList.forEach((formElement) => {
     const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+    const popupButton = formElement.querySelector(validationConfig.submitButtonSelector);
+
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         checkInputValidity(formElement, inputElement, validationConfig);
-        clearValidation(formElement, validationConfig);
+        inputValidation(inputList, popupButton, validationConfig);
       });
     });
   });
 }
+

@@ -44,8 +44,8 @@ export const getSendingUsers = (title, description) => {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
-      name: title.textContent,
-      about: description.textContent
+      name: title,
+      about: description
     })
   })
   .then(handleResponse)
@@ -53,18 +53,18 @@ export const getSendingUsers = (title, description) => {
 
 // @todo: Добавление новой карточки
 
-export const getSendingCards = (newCardData) => {
+export const getSendingCards = (postNewCard) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
-    body: JSON.stringify(newCardData)
+    body: JSON.stringify(postNewCard)
   })
   .then(handleResponse)
 }
 
 // @todo:  Удаление карточки
 
-export const deletingCard = (cardId) => {
+export const deleteCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
@@ -74,7 +74,7 @@ export const deletingCard = (cardId) => {
 
 // @todo: Постановка лайка
 
-export const getLikesCard = (cardId) => {
+export const addLikeCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: config.headers

@@ -1,51 +1,31 @@
 // import { cardTemplate } from './index.js';
-import { getLikesCard, deleteLikesCard } from './api.js';
-import { openPopup } from './modal.js';
+import { addLikeCard, deleteLikesCard } from './api.js';
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 // @todo: Функция создания карточки
 
-export const сreateCard = ({name, link}, openImages, likeCard, cardUserId, userId, cardId, cardlikes, handleDelete) => {
+export const сreateCard = (card, openImages, likeCallback, userId, handleDelete) => {
   const placesItem = cardTemplate.querySelector('.card').cloneNode(true);
   const likeLength = placesItem.querySelector('.card__like-quantity');
   
-  placesItem.querySelector('.card__image').src = link;
-  placesItem.querySelector('.card__image').alt = name;
-  placesItem.querySelector('.card__title').textContent = name;
+  placesItem.querySelector('.card__image').src = card.link;
+  placesItem.querySelector('.card__image').alt = card.name;
+  placesItem.querySelector('.card__title').textContent = card.name;
 
-  likeLength.textContent = cardlikes.length;
-  cardlikes.forEach((like) => {
-    if (like._id === userId) {
-    placesItem.querySelector('.card__like-button').classList.add('card__like-button_is-active');
-    } else {
-    placesItem.querySelector('.card__like-button').classList.remove('card__like-button_is-active');
-    };
-  });
+  likeLength.textContent = card.likes.length;
+  if(card.likes.some(like=> like._id === userId)){ 
+    placesItem.querySelector('.card__like-button').classList.add('card__like-button_is-active'); 
+  }
 
-  if (cardUserId !== userId) {
+  if (card.owner._id !== userId) {
     placesItem.querySelector('.card__delete-button').classList.add('card__delete-button-invisible')
   };
   
-  placesItem.querySelector('.card__image').addEventListener('click', () => openImages({name, link}));
+  placesItem.querySelector('.card__image').addEventListener('click', () => openImages(card));
 
-  placesItem.querySelector('.card__like-button').addEventListener('click', (evt) => {
-    if (placesItem.querySelector('.card__like-button').classList.contains('card__like-button_is-active')) {
-      deleteLikesCard(cardId).then((likesCard) => {
-        likeCard(evt);
-        likeLength.textContent = likesCard.likes.length;
-      }).catch((err) => console.log(err));
-    } else {
-      getLikesCard(cardId).then((likesCard) => {
-        likeCard(evt);
-        likeLength.textContent = likesCard.likes.length;
-      }).catch((err) => console.log(err));
-    }
-  })
+  placesItem.querySelector('.card__like-button').addEventListener('click', (evt) => likeCallback(evt, card._id, likeLength, placesItem))
   
-  placesItem.querySelector('.card__delete-button').addEventListener('click', (evt) => {
-    openPopup(document.querySelector('.popup_delete'));
-    handleDelete(cardId, evt);
-  });
+  placesItem.querySelector('.card__delete-button').addEventListener('click', (evt) => handleDelete(card._id, evt));
 
   return placesItem;
 }
@@ -54,18 +34,23 @@ export const сreateCard = ({name, link}, openImages, likeCard, cardUserId, user
 
 export const handleDeleteButton = (evt) => {
   const event = evt.target;
-  const delitCard = event.closest('.places__item');
-  delitCard.remove();
+  const deleteCard = event.closest('.places__item');
+  deleteCard.remove();
 }
 
+//@todo функция колбэка постановки лайка
+
+export const likeCallback = (likeButton, cardId, likeLength, card) => {
+  const likeMethod = card.querySelector('.card__like-button').classList.contains('card__like-button_is-active') ? deleteLikesCard : addLikeCard;
+  likeMethod(cardId).then((likesCard) => { 
+      likeCard(likeButton); 
+      likeLength.textContent = likesCard.likes.length; 
+    }).catch((err) => console.log(err)); 
+}
 
 //@todo функция лайка карточки
 
 export const likeCard = (evt) => {
   const heart = evt.target;
-  if (heart.classList.contains('card__like-button_is-active')) {
-    heart.classList.remove('card__like-button_is-active');
-  } else {
-    heart.classList.add('card__like-button_is-active');
-  }
+  heart.classList.toggle('card__like-button_is-active')
 }
