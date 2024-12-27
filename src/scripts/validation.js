@@ -71,7 +71,6 @@ export const clearValidation = (formElement, validationConfig) => {
 export const enableValidation = (validationConfig) => {
   const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
   
-
   formList.forEach((formElement) => {
     const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
     const popupButton = formElement.querySelector(validationConfig.submitButtonSelector);
