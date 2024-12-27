@@ -2,7 +2,7 @@
 import { сreateCard, handleDeleteButton, likeCallback } from './card.js';
 import { openPopup, closePopup } from './modal.js';
 import { enableValidation,  clearValidation } from './validation.js';
-import { getInitalUsers, getInitialCards, getSendingUsers, getSendingCards, updateAvatar, deleteCard } from './api.js';
+import { getInitalUsers, getInitialCards, editUsers, addCards, updateAvatar, deleteCard } from './api.js';
 import '../pages/index.css';
 
 
@@ -123,7 +123,7 @@ function handleFormProfileEdit(evt) {
   evt.preventDefault(); 
   setSubmitButtonText(evt, 'Сохранение...');
   
-  getSendingUsers(nameInput.value, jobInput.value).then((users) => {
+  editUsers(nameInput.value, jobInput.value).then((users) => {
     profileTitle.textContent = users.name;
     profileDescription.textContent = users.about;
     users.name,
@@ -149,7 +149,7 @@ const addCardPageForm = (evt, userId) => {
     link: linkInput.value
   };
 
-  getSendingCards(newCardData).then((card) => {
+  addCards(newCardData).then((card) => {
     renderCard(card, userId);
 }).catch((err) => console.log(err))
 .finally(() => setSubmitButtonText(evt, 'Сохранить'));

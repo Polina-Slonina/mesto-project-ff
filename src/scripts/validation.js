@@ -43,7 +43,7 @@ const hasInvalidInput = (inputList) => {
 
  // @todo: функция активации кнопки сохранения
 
- const inputValidation = (inputList, popupButton, validationConfig) => {
+ const toggleSubmitButtonState = (inputList, popupButton, validationConfig) => {
   if (hasInvalidInput(inputList)) {
     popupButton.disabled = true;
     popupButton.classList.add(validationConfig.inactiveButtonClass);
@@ -59,7 +59,7 @@ export const clearValidation = (formElement, validationConfig) => {
   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
   const popupButton = formElement.querySelector(validationConfig.submitButtonSelector);
  
-  inputValidation(inputList, popupButton, validationConfig);
+  toggleSubmitButtonState(inputList, popupButton, validationConfig);
 
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement, validationConfig);
@@ -75,11 +75,11 @@ export const enableValidation = (validationConfig) => {
   formList.forEach((formElement) => {
     const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
     const popupButton = formElement.querySelector(validationConfig.submitButtonSelector);
-
+    
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         checkInputValidity(formElement, inputElement, validationConfig);
-        inputValidation(inputList, popupButton, validationConfig);
+        toggleSubmitButtonState(inputList, popupButton, validationConfig);
       });
     });
   });

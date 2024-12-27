@@ -39,7 +39,7 @@ export const getInitialCards = () => {
 
 // @todo: Обновление информации о пользователе
 
-export const getSendingUsers = (title, description) => {
+export const editUsers = (title, description) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
@@ -53,7 +53,7 @@ export const getSendingUsers = (title, description) => {
 
 // @todo: Добавление новой карточки
 
-export const getSendingCards = (postNewCard) => {
+export const addCards = (postNewCard) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
